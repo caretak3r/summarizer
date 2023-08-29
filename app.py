@@ -1,6 +1,6 @@
 # Import necessary libraries
 import streamlit as st
-from utils import extract_text_from_pdf, summarize
+from utils import extract_text_from_pdf, summarize, chunk_text
 
 
 def main():
@@ -25,26 +25,19 @@ def main():
             # Use utility function to extract text from PDF
             pdf_text = extract_text_from_pdf(uploaded_file, page_range)
 
+            # chunk pdf_text using utility function
+            pdf_chunks = chunk_text(pdf_text)
+            print(pdf_chunks)
+
             # Use utility function to generate summary in markdown format
-            summary = summarize(pdf_text, user_prompt, system_prompt, model)
+            summary = ""
+            for chunk in pdf_chunks:
+                summary += summarize(chunk, user_prompt, system_prompt, model)
+
+            # summary = summarize(pdf_text, user_prompt, system_prompt, model)
 
             # Display the summary
             st.markdown(summary)
-
-    # # use a submit button to trigger the summary
-    # if uploaded_file is not None and st.button("Summarize"):
-    #     # allow user to choose a range of pages to summarize instead of all PDF pages
-    #     page_range = st.text_input(
-    #         "Enter the range of pages to summarize (e.g., '1-5'). Leave blank for all pages."
-    #     )
-    #     # Use utility function to extract text from PDF
-    #     pdf_text = extract_text_from_pdf(uploaded_file)
-
-    #     # Use utility function to generate summary in markdown format
-    #     summary = summarize(pdf_text, user_prompt, system_prompt, model)
-
-    #     # Display the summary
-    #     st.markdown(summary)
 
 
 # Run the main function to start the Streamlit app
