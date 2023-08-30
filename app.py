@@ -27,15 +27,13 @@ def main():
 
             # chunk pdf_text using utility function
             pdf_chunks = chunk_text(pdf_text)
-            print(pdf_chunks)
+            # print(pdf_chunks)
 
             # Use utility function to generate summary in markdown format
             summary = ""
             for chunk in pdf_chunks:
-                summary += summarize(chunk, user_prompt, system_prompt, model)
-
-            # summary = summarize(pdf_text, user_prompt, system_prompt, model)
-
+                summary += summarize(chunk["text"], user_prompt, system_prompt, model)
+                print(summary)
             # Display the summary
             st.markdown(summary)
 

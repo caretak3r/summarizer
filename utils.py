@@ -62,6 +62,7 @@ def chunk_text(text, max_tokens=8000) -> list:
             "chunk_count": chunk_count,
             "word_count": len(chunk.split()),
             "token_count": token_count,
+            "text": chunk,  # add the chunk text to the dictionary
         }
         chunks_log.append(chunk_data)
     return chunks_log
